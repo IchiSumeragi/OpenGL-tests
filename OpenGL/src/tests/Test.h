@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 
 namespace test
 {
@@ -11,5 +12,6 @@ namespace test
 		virtual void OnUpdate(float deltaTime) {}
 		virtual void OnRender() {}
 		virtual void OnImGuiRender() {}
+		virtual std::string GetTestName() { return nullptr; };
 	};
 }

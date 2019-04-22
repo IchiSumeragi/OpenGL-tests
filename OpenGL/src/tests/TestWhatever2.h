@@ -4,11 +4,11 @@
 
 namespace test
 {
-	class TestClearColor : public Test
+	class TestWhatever2 : public Test
 	{
 	public:
-		TestClearColor();
-		~TestClearColor();
+		TestWhatever2();
+		~TestWhatever2();
 
 		void OnUpdate(float deltaTime) override;
 		void OnRender() override;

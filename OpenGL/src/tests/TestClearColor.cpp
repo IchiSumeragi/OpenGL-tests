@@ -25,3 +25,9 @@ void test::TestClearColor::OnImGuiRender()
 {
 	ImGui::ColorEdit4("Clear color", m_ClearColor);
 }
+
+std::string test::TestClearColor::GetTestName()
+{
+	std::string s = "Clear color test";
+	return s;
+}
