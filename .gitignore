@@ -50,7 +50,7 @@ artifacts/
 *_i.h
 *.ilk
 *.meta
-*.obj
+#*.obj
 *.pch
 *.pdb
 *.pgc
@@ -260,3 +260,4 @@ paket-files/
 __pycache__/
 *.pyc
 /bin/intermediates/x64/Debug
+/bin/intermediates/Win32
