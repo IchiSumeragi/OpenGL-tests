@@ -34,13 +34,6 @@ void Renderer::Draw(const VertexArray &va, const IndexBuffer & ib, const Shader 
 
 void Renderer::Draw(Mesh & m, Shader& shader) const
 {
-	VertexBufferLayout layout;
-	layout.Push<float>(3);
-	layout.Push<float>(3);
-	layout.Push<float>(3);
-
-	m.vao.AddBuffer(m.vbo, layout);
-
 	shader.Bind();
 	m.vao.Bind();
 	m.ibo.Bind();
@@ -60,14 +53,13 @@ void Renderer::Draw(Mesh & m, Shader& shader) const
 		else if (name == "texture_specular")
 			number = std::to_string(specular++);
 
-		shader.SetUniform1f(("material." + name + number).c_str(), i);
+		shader.SetUniform1i((name + number).c_str(), i);
 		GLCall(glBindTexture(GL_TEXTURE_2D, m.textures[i].GetID()));
 	}
 
-	GLCall(glActiveTexture(GL_TEXTURE0));
-
-	GLCall(glDrawElements(GL_TRIANGLES, m.ibo.GetCount(), GL_UNSIGNED_INT, 0));
+	GLCall(glDrawElements(GL_TRIANGLES, m.indices.size(), GL_UNSIGNED_INT, 0));
 	
+	GLCall(glActiveTexture(GL_TEXTURE0));
 	m.vao.Unbind();
 }
 

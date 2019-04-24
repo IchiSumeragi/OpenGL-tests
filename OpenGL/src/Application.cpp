@@ -24,6 +24,7 @@
 
 #include "tests/Test.h"
 #include "tests/TestClearColor.h"
+#include "tests/TestLoadMesh.h"
 
 int main(void)
 {
@@ -54,9 +55,6 @@ int main(void)
 	std::cout << "OPENGL VERSION : " << glGetString(GL_VERSION) << std::endl;
 
 	{
-		GLCall(glEnable(GL_BLEND));
-		GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
-
 		Renderer renderer;
 
 		ImGui::CreateContext();
@@ -68,23 +66,12 @@ int main(void)
 		currentTest = testMenu;
 
 		testMenu->RegisterTest<test::TestClearColor>("Clear color");
-
-		Shader shader("res/shaders/Basic.shader");
-		Model nanosuit("res/meshes/nanosuit/nanosuit.obj");
+		testMenu->RegisterTest<test::TestLoadMesh>("Load mesh");
 
 		while (!glfwWindowShouldClose(window))
 		{
-			glm::mat4 proj = glm::ortho(0.0f, 960.0f, 0.0f, 540.0f, -1.0f, 1.0f);
-			glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
-			glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(200, 200, 0.0f));
-			glm::mat4 mvp = proj * view * model;
-			shader.Bind();
-			shader.SetUniformMat4f("u_MVP", mvp);
-			renderer.Draw(nanosuit, shader);
-
-
-			GLCall(glClearColor(0.0f, 0.0f, 0.0f, 1.0f));
-			renderer.Clear();
+			GLCall(glClearColor(0.2f, 0.3f, 0.8f, 1.0f));
+			GLCall(glClear(GL_COLOR_BUFFER_BIT));
 
 			ImGui_ImplGlfwGL3_NewFrame();
 
@@ -107,7 +94,6 @@ int main(void)
 			ImGui::Render();
 			ImGui_ImplGlfwGL3_RenderDrawData(ImGui::GetDrawData());
 
-
 			glfwSwapBuffers(window);
 
 			glfwPollEvents();
@@ -121,5 +107,4 @@ int main(void)
 	glfwTerminate();
 
 	return 0;
-
 }
