@@ -4,6 +4,7 @@
 #include "VertexArray.h"
 #include "IndexBuffer.h"
 #include "Shader.h"
+#include "Model.h"
 
 #define ASSERT(x) if (!(x)) __debugbreak();
 #define GLCall(x) GLClearError();\
@@ -18,4 +19,6 @@ class Renderer
 public:
 	void Clear() const;
 	void Draw(const VertexArray&, const IndexBuffer& ib, const Shader& shader) const;
+	void Draw(Mesh& m, Shader& shader) const;
+	void Draw(Model& m, Shader & shader) const;
 };

@@ -60,10 +60,13 @@
     <ClCompile Include="src\tests\TestClearColor.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="src\tests\TestWhatever.cpp">
+    <ClCompile Include="src\tests\Test.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="src\tests\TestWhatever2.cpp">
+    <ClCompile Include="src\Mesh.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1253,10 +1256,10 @@
     <ClInclude Include="src\tests\TestClearColor.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="src\tests\TestWhatever.h">
+    <ClInclude Include="src\Mesh.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="src\tests\TestWhatever2.h">
+    <ClInclude Include="src\Model.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>

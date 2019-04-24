@@ -22,9 +22,8 @@
 #include "imGui/imgui.h"
 #include "imGui/imgui_impl_glfw_gl3.h"
 
+#include "tests/Test.h"
 #include "tests/TestClearColor.h"
-#include "tests/TestWhatever.h"
-#include "tests/TestWhatever2.h"
 
 int main(void)
 {
@@ -64,42 +63,59 @@ int main(void)
 		ImGui_ImplGlfwGL3_Init(window, true);
 		ImGui::StyleColorsDark();
 
-		test::Test* currentTest = new test::Test();
-		test::TestClearColor* testClearColor = new test::TestClearColor();
+		test::Test* currentTest = nullptr;
+		test::TestMenu* testMenu = new test::TestMenu(currentTest);
+		currentTest = testMenu;
 
-		test::TestWhatever* testClearColor2 = new test::TestWhatever();
-		test::TestWhatever2* testClearColor3 = new test::TestWhatever2();
+		testMenu->RegisterTest<test::TestClearColor>("Clear color");
 
-		std::vector<test::Test*> allTests;
-		allTests.push_back(testClearColor);
-		allTests.push_back(testClearColor2);
-		allTests.push_back(testClearColor3);
+		Shader shader("res/shaders/Basic.shader");
+		Model nanosuit("res/meshes/nanosuit/nanosuit.obj");
 
 		while (!glfwWindowShouldClose(window))
 		{
-			renderer.Clear();
+			glm::mat4 proj = glm::ortho(0.0f, 960.0f, 0.0f, 540.0f, -1.0f, 1.0f);
+			glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
+			glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(200, 200, 0.0f));
+			glm::mat4 mvp = proj * view * model;
+			shader.Bind();
+			shader.SetUniformMat4f("u_MVP", mvp);
+			renderer.Draw(nanosuit, shader);
 
-			currentTest->OnUpdate(0.0f);
-			currentTest->OnRender();
+
+			GLCall(glClearColor(0.0f, 0.0f, 0.0f, 1.0f));
+			renderer.Clear();
 
 			ImGui_ImplGlfwGL3_NewFrame();
 
-			ImGui::TextColored(ImVec4(0, 1, 1, 1), "Tests");
-			ImGui::BeginChild("Scrolling", ImVec2(0, allTests.size() * 25));
-			for (test::Test *t : allTests)
-				if (ImGui::Button(t->GetTestName().c_str()))
-					currentTest = t;
-			ImGui::EndChild();
+			if (currentTest)
+			{
+				currentTest->OnUpdate(0.0f);
+				currentTest->OnRender();
+				ImGui::Begin("Test");
 
-			currentTest->OnImGuiRender();
+				if (currentTest != testMenu && ImGui::Button("<-"))
+				{
+					delete currentTest;
+					currentTest = testMenu;
+				}
+
+				currentTest->OnImGuiRender();
+				ImGui::End();
+			}
 
 			ImGui::Render();
 			ImGui_ImplGlfwGL3_RenderDrawData(ImGui::GetDrawData());
+
 
 			glfwSwapBuffers(window);
 
 			glfwPollEvents();
 		}
+
+		delete currentTest;
+		if (currentTest != testMenu)
+			delete testMenu;
 	}
 
 	glfwTerminate();

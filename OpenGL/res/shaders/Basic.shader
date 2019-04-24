@@ -19,15 +19,15 @@ void main()
 
 layout (location = 0) out vec4 color;
 
-in vec2 v_TexCoord;
+out vec4 FragColor;
 
-uniform vec4 u_Color;
-uniform sampler2D u_Texture;
+
+in vec2 v_TexCoord;
+uniform sampler2D texture_diffuse1;
 
 void main()
 {
-	vec4 texColor = texture(u_Texture, v_TexCoord);
-	color = texColor;
+	FragColor = texture(texture_diffuse1, v_TexCoord);
 	//vec4 texColor = vec4(v_TexCoord.x, v_TexCoord.y, 0.0f, 1.0f);
 	//color = texColor;
 };
