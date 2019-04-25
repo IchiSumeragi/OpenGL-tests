@@ -61,6 +61,7 @@ void Renderer::Draw(Mesh *m, Shader& shader) const
 
 	GLCall(glActiveTexture(GL_TEXTURE0));
 	m->vao.Unbind();
+	m->ibo.Unbind();
 }
 
 void Renderer::Draw(Model& m, Shader& shader) const

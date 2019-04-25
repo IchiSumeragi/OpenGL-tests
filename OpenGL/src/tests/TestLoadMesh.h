@@ -21,5 +21,8 @@ namespace test
 		Shader shader;
 		Model nanosuit;
 		Renderer renderer;
+
+		float rotation = 0.0f;
+		float scale = 0.2f;
 	};
 }

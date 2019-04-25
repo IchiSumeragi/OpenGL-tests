@@ -71,7 +71,7 @@ int main(void)
 		while (!glfwWindowShouldClose(window))
 		{
 			GLCall(glClearColor(0.2f, 0.3f, 0.8f, 1.0f));
-			GLCall(glClear(GL_COLOR_BUFFER_BIT));
+			GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
 
 			ImGui_ImplGlfwGL3_NewFrame();
 

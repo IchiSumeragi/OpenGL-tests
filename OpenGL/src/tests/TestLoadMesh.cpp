@@ -28,13 +28,15 @@ test::TestLoadMesh::~TestLoadMesh()
 
 void test::TestLoadMesh::OnUpdate(float deltaTime)
 {
+	glEnable(GL_DEPTH_TEST);
 
-	glm::mat4 proj = glm::ortho(0.0f, 960.0f, 0.0f, 540.0f, -100.0f, 100.0f);
+	//glm::mat4 proj = glm::ortho(0.0f, 960.0f, 0.0f, 540.0f, -1000.0f, 1000.0f);
+	glm::mat4 proj = glm::perspective(90.0f, 960.0f/540.0f, 0.1f, 100.0f);
 	glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
-	glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(500.0f, 0.0f, 0.0f));
+	glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, -1.75f, -1.0f));
 
-	model = glm::scale(model, glm::vec3(35.0f, 35.0f, 35.0f));
-
+	model = glm::scale(model, glm::vec3(scale, scale, scale));
+	model = glm::rotate(model, rotation, glm::vec3(0.0f, 1.0f, 0.0f));
 	glm::mat4 mvp = proj * view * model;
 
 	shader.SetUniformMat4f("u_MVP", mvp);
@@ -47,4 +49,6 @@ void test::TestLoadMesh::OnRender()
 
 void test::TestLoadMesh::OnImGuiRender()
 {
+	ImGui::SliderFloat("Rotation : ", &rotation, -10.0f, 10.0f);
+	ImGui::SliderFloat("Scale : ", &scale, 0.0f, 1.0f);
 }
