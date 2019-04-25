@@ -22,7 +22,14 @@ void Model::processNode(aiNode * node, const aiScene * scene)
 	for (unsigned int i = 0; i < node->mNumMeshes; i++)
 	{
 		aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
-		meshes.push_back(processMesh(mesh, scene));
+
+		std::vector<Vertex> v;
+		std::vector<unsigned int> indices;
+		std::vector<Texture> t;
+		processMesh(mesh, scene, v, indices, t);
+
+		Mesh* m = new Mesh(v, indices, t);
+		meshes.push_back(m);
 	}
 
 	for (unsigned int i = 0; i < node->mNumChildren; i++)
@@ -31,12 +38,8 @@ void Model::processNode(aiNode * node, const aiScene * scene)
 	}
 }
 
-Mesh Model::processMesh(aiMesh * mesh, const aiScene * scene)
+void Model::processMesh(aiMesh * mesh, const aiScene * scene, std::vector<Vertex>& vertices, std::vector<unsigned int>& indices, std::vector<Texture>& textures)
 {
-	std::vector<Vertex> vertices;
-	std::vector<unsigned int> indices;
-	std::vector<Texture> textures;
-
 	for (unsigned int i = 0; i < mesh->mNumVertices; i++)
 	{
 		Vertex vertex;
@@ -82,8 +85,6 @@ Mesh Model::processMesh(aiMesh * mesh, const aiScene * scene)
 		std::vector<Texture> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
 		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
 	}
-
-	return Mesh(vertices, indices, textures);
 }
 
 std::vector<Texture> Model::loadMaterialTextures(aiMaterial * mat, aiTextureType type, std::string typeName)

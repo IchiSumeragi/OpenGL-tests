@@ -12,12 +12,12 @@ public:
 		loadModel(path);
 	}
 
-	std::vector<Mesh> meshes;
+	std::vector<Mesh*> meshes;
 private:
 	std::string directory;
 
 	void loadModel(std::string& path);
 	void processNode(aiNode *node, const aiScene *scene);
-	Mesh processMesh(aiMesh *mesh, const aiScene *scene);
+	void processMesh(aiMesh * mesh, const aiScene * scene, std::vector<Vertex>& vertices, std::vector<unsigned int>& indices, std::vector<Texture>& textures);
 	std::vector<Texture> loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName);
 };

@@ -19,6 +19,6 @@ class Renderer
 public:
 	void Clear() const;
 	void Draw(const VertexArray&, const IndexBuffer& ib, const Shader& shader) const;
-	void Draw(Mesh& m, Shader& shader) const;
+	void Draw(Mesh* m, Shader& shader) const;
 	void Draw(Model& m, Shader & shader) const;
 };

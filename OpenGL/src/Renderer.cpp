@@ -32,21 +32,21 @@ void Renderer::Draw(const VertexArray &va, const IndexBuffer & ib, const Shader 
 	GLCall(glDrawElements(GL_TRIANGLES, ib.GetCount(), GL_UNSIGNED_INT, nullptr));
 }
 
-void Renderer::Draw(Mesh & m, Shader& shader) const
+void Renderer::Draw(Mesh *m, Shader& shader) const
 {
 	shader.Bind();
-	m.vao.Bind();
-	m.ibo.Bind();
+	m->vao.Bind();
+	m->ibo.Bind();
 
 	unsigned int diffuse = 1;
 	unsigned int specular = 1;
 
-	for (unsigned int i = 0; i < m.textures.size(); i++)
+	for (unsigned int i = 0; i < m->textures.size(); i++)
 	{
 		GLCall(glActiveTexture(GL_TEXTURE0 + i));
 
 		std::string number;
-		std::string name = m.textures[i].GetType();
+		std::string name = m->textures[i].GetType();
 
 		if (name == "texture_diffuse")
 			number = std::to_string(diffuse++);
@@ -54,13 +54,13 @@ void Renderer::Draw(Mesh & m, Shader& shader) const
 			number = std::to_string(specular++);
 
 		shader.SetUniform1i((name + number).c_str(), i);
-		GLCall(glBindTexture(GL_TEXTURE_2D, m.textures[i].GetID()));
+		GLCall(glBindTexture(GL_TEXTURE_2D, m->textures[i].GetID()));
 	}
 
-	GLCall(glDrawElements(GL_TRIANGLES, m.indices.size(), GL_UNSIGNED_INT, 0));
-	
+	GLCall(glDrawElements(GL_TRIANGLES, m->ibo.GetCount(), GL_UNSIGNED_INT, 0));
+
 	GLCall(glActiveTexture(GL_TEXTURE0));
-	m.vao.Unbind();
+	m->vao.Unbind();
 }
 
 void Renderer::Draw(Model& m, Shader& shader) const

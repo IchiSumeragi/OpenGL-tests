@@ -261,3 +261,5 @@ __pycache__/
 *.pyc
 /bin/intermediates/x64/Debug
 /bin/intermediates/Win32
+/OpenGL/OpenGL.exe
+/OpenGL/assimp-vc140-mt.dll
